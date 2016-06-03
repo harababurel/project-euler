@@ -1,0 +1,21 @@
+divs :: [Int]
+divs = map (\n -> sum [x + div n x | x <- [1..root n], rem n x == 0] - n - extra n) [0..]
+    where root n = floor $ sqrt $ fromIntegral n
+          extra n = if (root n)^2 == n then root n else 0
+
+isAbundant :: Int -> Bool
+isAbundant n = divs !! n > n
+
+abundants :: [Int]
+abundants = filter isAbundant [1..]
+
+unwritable :: Int -> Bool
+unwritable n = null [1 | x <- takeWhile (<n) abundants, isAbundant (n-x)]
+
+sol :: Int
+sol = sum $ filter unwritable $ [2..5823]
+
+
+main = print $ length $ filter (<28123) abundants
+
+--main = print sol
