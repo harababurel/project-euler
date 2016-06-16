@@ -4,4 +4,4 @@
 # make and build files
 **/*.o
 **/*.hi
-main
+**/main
