@@ -62,8 +62,18 @@ done
 echo "Problem | Execution time" > README.md
 echo ":-------|:-------------:" >> README.md
 
+totalSeconds=0
 withLogs=`find -name main.log | grep -o "[0-9]\+" | sort -n`
+entries=`echo $withLogs | tr ' ' '\n' | wc -l`
+
 for id in $withLogs; do
     t=`cat $id/main.log`
     echo "$id | $t" >> README.md
+
+    minutes=`sed 's/m.\+//g' $id/main.log`
+    seconds=`sed 's/.\+m\(.\+\)s/\1/g' $id/main.log`
+    totalSeconds=`echo "$totalSeconds + $minutes * 60 + $seconds" | bc -l`
 done
+
+averageSeconds=`echo "$totalSeconds / $entries" | bc -l`
+printf "Average | %.3fs\n" $averageSeconds >> README.md
