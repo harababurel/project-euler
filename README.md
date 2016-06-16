@@ -33,6 +33,7 @@ Problem | Execution time
 35 | 0m0.165s
 36 | 0m0.204s
 37 | 0m5.562s
+38 | 0m0.014s
 39 | 0m0.134s
 40 | 0m0.142s
 41 | 0m0.034s
@@ -43,4 +44,4 @@ Problem | Execution time
 50 | 0m0.006s
 92 | 0m3.398s
 160 | 0m0.018s
-Average | 1.078s
+Average | 1.053s
