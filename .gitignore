@@ -2,5 +2,6 @@
 *~
 
 # make and build files
-*.o
-*.hi
+**/*.o
+**/*.hi
+
