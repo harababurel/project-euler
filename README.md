@@ -40,8 +40,9 @@ Problem | Execution time
 42 | 0m0.002s
 43 | 0m7.221s
 44 | 0m0.167s
+45 | 0m0.012s
 48 | 0m0.026s
 50 | 0m0.006s
 92 | 0m3.398s
 160 | 0m0.018s
-Average | 1.053s
+Average | 1.030s
