@@ -4,4 +4,6 @@
 # make and build files
 **/*.o
 **/*.hi
+**/*.log
+**/*.swp
 */main
