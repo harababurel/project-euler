@@ -17,8 +17,8 @@ while test $# -gt 0; do
             shift
             ;;
         *)
-            echo "Unknown argument: $1"
-            echo "Try running with --help."
+            echo "$0: invalid option '$1'"
+            echo "Try '$0 --help' for more information."
             exit 0
             ;;
     esac
