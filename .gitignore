@@ -6,4 +6,4 @@
 **/*.hi
 **/*.log
 **/*.swp
-*main
+**/main
