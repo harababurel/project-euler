@@ -13,7 +13,7 @@ sol = dp
           dp 1 A 1 False = 1
           dp 1 O 0 False = 1
           dp 1 L 0 True = 1
-          dp 1  _  _ _ = 0
+          dp 1 _ _ _ = 0
 
           dp i O streak hasL
             | streak /= 0 = 0
