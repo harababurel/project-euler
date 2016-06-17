@@ -68,6 +68,11 @@ entries=`echo $withLogs | tr ' ' '\n' | wc -l`
 
 for id in $withLogs; do
     t=`cat $id/main.log`
+
+    if [ `echo $t | grep -v '^0'` ]; then
+        t="**$t**"
+    fi
+
     echo "$id | $t" >> README.md
 
     minutes=`sed 's/m.\+//g' $id/main.log`
