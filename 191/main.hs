@@ -1,45 +1,46 @@
 import Data.MemoCombinators.Class (memoize)
 import Data.MemoUgly
 import Data.Int
+import Data.Array
 
--- Needs better memoization :-??
+-- Ugly but fast
 
-data Letter = A | O | L
-data Absence = None | One | Two
-    deriving (Eq)
+-- a = 0 :: Int
+-- o = 1 :: Int
+-- l = 2 :: Int
 
-prev :: Absence -> Absence
-prev Two = One
-prev One = None
+dp :: Int -> Int -> Int -> Int -> Int
+dp n letter absences hasL = table ! (n, letter, absences, hasL)
+    where bnds = ((0,0,0,0), (n,2,2,1))
+          table = listArray bnds . map dp' $ range bnds
 
-dp = dp'
-    where dp' :: Int8 -> Letter -> Absence -> Bool -> Int32
-          dp' 0 _ _    _     = 0
-          dp' 1 A One  False = 1
-          dp' 1 O None False = 1
-          dp' 1 L None True  = 1
-          dp' 1 _ _    _     = 0
+          dp' :: (Int, Int, Int, Int) -> Int
+          dp' (0, _, _, _) = 0
+          dp' (1, 0, 1, 0) = 1
+          dp' (1, 1, 0, 0) = 1
+          dp' (1, 2, 0, 1) = 1
+          dp' (1, _, _, _) = 0
 
-          dp' i O absences hasL
-            | absences /= None = 0
-            | otherwise        = sum [dp (i-1) A     lastAbsences hasL | lastAbsences <- [None, One, Two]] +
-                                 sum [dp (i-1) lastJ None         hasL | lastJ <- [L,O]]
+          dp' (i, 1, absences, hasL)
+            | absences /= 0 = 0
+            | otherwise     = sum [table ! (pred i, 0,     lastAbsences, hasL) | lastAbsences <- [0,1,2]] +
+                              sum [table ! (pred i, lastJ, 0,            hasL) | lastJ <- [1,2]]
 
-          dp' i L absences hasL
-            | absences /= None = 0
-            | not hasL         = 0
-            | otherwise        = sum [dp (i-1) A lastAbsences False | lastAbsences <- [None, One, Two]] +
-                                      dp (i-1) O None         False
+          dp' (i, 2, absences, hasL)
+            | absences /= 0 = 0
+            | hasL == 0     = 0
+            | otherwise     = sum [table ! (pred i, 0, lastAbsences, 0) | lastAbsences <- [0,1,2]] +
+                                   table ! (pred i, 1, 0,            0)
 
-          dp' i A absences hasL
-            | absences == None = 0    -- by adding an A, the absences is at least 1
-            | absences == One  = sum [dp (i-1) lastJ None            hasL | lastJ <- [L,O]]
-            | otherwise        = sum [dp (i-1) A     (prev absences) hasL]
+          dp' (i, 0, absences, hasL)
+            | absences == 0 = 0    -- by adding an A, the absences is at least 1
+            | absences == 1 = sum [table ! (pred i, lastJ, 0,             hasL) | lastJ <- [1,2]]
+            | otherwise     = sum [table ! (pred i, 0,     pred absences, hasL)]
 
 main = do
     line <- getLine
-    let n = read line :: Int8
+    let n = read line :: Int
 
-    print $ sum $ [sum [dp n O None     hasL | hasL <- [False,True]]
-                  ,sum [dp n A absences hasL | absences <- [One, Two], hasL <- [False,True]]
-                  ,     dp n L None     True]
+    print $ sum $ [sum [dp n 1 0        hasL | hasL <- [0,1]]
+                  ,sum [dp n 0 absences hasL | absences <- [1,2], hasL <- [0,1]]
+                  ,     dp n 2 0        1]
