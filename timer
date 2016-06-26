@@ -25,7 +25,8 @@ while test $# -gt 0; do
 done
 
 # Compile and run all solutions that do not already have a log file.
-# Write their execution time to main.log
+# Write their execution time on the first line of main.log
+# and their last line of output on the second line of main.log
 ids=`find -name main.hs | grep -o "[0-9]\+" | sort -n`
 for id in $ids; do
 
