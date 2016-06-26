@@ -40,43 +40,49 @@ for id in $ids; do
     echo Compiling $id.
     ghc --make -O3 $id/main
 
-    tmpfile=`mktemp`
+    timeTmp=`mktemp`
+    outputTmp=`mktemp`
 
     echo Running $id.
     find $id/input &> /dev/null
     if [ $? == 0 ]; then
-        $( { time cat $id/input | $id/main; } 2>$tmpfile 1>/dev/null )
+        $( { time cat $id/input | $id/main; } 2>$timeTmp 1>$outputTmp )
     else
-        $( { time $id/main; } 2>$tmpfile 1>/dev/null )
+        $( { time $id/main; } 2>$timeTmp 1>$outputTmp )
     fi
 
-    t=`cat $tmpfile | head -n 2 | tail -n 1 | cut -c 5-`
+    t=`cat $timeTmp | head -n 2 | tail -n 1 | cut -c 5-`
+    o=`cat $outputTmp | tail -n 1`
+
+    echo "Output is $o"
+
     echo $t > $id/main.log
+    echo $o >> $id/main.log
 
     echo
 done
 
-
 # Generate README.md
 # Create an entry for each problem that has a log file.
-echo "Problem | Execution time" > README.md
-echo ":-------|:-------------:" >> README.md
+echo "Problem | Execution time | Answer" > README.md
+echo ":-------|:--------------:|:------" >> README.md
 
 totalSeconds=0
 withLogs=`find -name main.log | grep -o "[0-9]\+" | sort -n`
 entries=`echo $withLogs | tr ' ' '\n' | wc -l`
 
 for id in $withLogs; do
-    t=`cat $id/main.log`
+    t=`cat $id/main.log | head -n 1`
+    o=`cat $id/main.log | tail -n 1`
 
     if [ `echo $t | grep -v '^0'` ]; then
         t="**$t**"
     fi
 
-    echo "$id | $t" >> README.md
+    echo "$id | $t | $o" >> README.md
 
-    minutes=`sed 's/m.\+//g' $id/main.log`
-    seconds=`sed 's/.\+m\(.\+\)s/\1/g' $id/main.log`
+    minutes=`echo $t | sed 's/m.\+//g'`
+    seconds=`echo $t | sed 's/.\+m\(.\+\)s/\1/g'`
     totalSeconds=`echo "$totalSeconds + $minutes * 60 + $seconds" | bc -l`
 done
 
