@@ -1,3 +1,3 @@
 import Data.List
 
-main = print $ (sort $ permutations ['0'..'9']) !! 999999
+main = putStrLn $ (sort $ permutations ['0'..'9']) !! 999999
