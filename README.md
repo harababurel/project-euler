@@ -53,6 +53,7 @@ Problem | Execution time | Answer
 57 | 0m3.164s | 153
 59 | 0m6.370s | 107359
 63 | 0m0.004s | There are 49 numbers.
+65 | 0m0.001s | 272
 67 | 0m0.018s | 7273
 71 | 0m0.394s | 428570 % 999997
 73 | 0m0.568s | 7295372
@@ -79,4 +80,4 @@ Problem | Execution time | Answer
 187 | 0m8.224s | 17427258
 191 | 0m0.011s | 1918080160
 206 | 0m4.221s | 1389019170
-Average | 1.108s
+Average | 1.094s
