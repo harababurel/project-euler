@@ -1,20 +1,23 @@
 import Data.List
 import Data.Numbers.Primes
 
-factorizations :: Int -> Int
-factorizations n = 1 + div (product $ map (succ . length) $ group $ primeFactors n) 2
+factorizations :: Integer -> Integer
+factorizations n = 1 + toInteger (div (product $ map (succ . length) $ group $ primeFactors n) 2)
 
-sol :: Int -> Int
+sol :: Integer -> Integer
 sol n = factorizations (n^2)
 
-takeWhileInclusive p (x:xs)
-    | p x = x:takeWhileInclusive p xs
-    | otherwise = [x]
+candidates = [2^a * 3^b * 5^c * 7^d * 11^e * 13^f | a <- [0..2],
+                                                    b <- [0..2],
+                                                    c <- [0..2],
+                                                    d <- [0..2],
+                                                    e <- [0..2],
+                                                    f <- [0..2]]
 
-sols = takeWhileInclusive (\x -> snd x < 1000) $ zip [1..] (map sol [1..])
+sols = filter (\x -> sol x > 1000) candidates
 
 main = do
-    sequence $ map (print . head) $ group $ scanl1 (\x acc -> if snd x >= snd acc then x else acc) sols
+    print $ minimum sols
 
 {- 1/x + 1/y = 1/n
  -
