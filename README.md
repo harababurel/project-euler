@@ -56,7 +56,9 @@ Problem | Execution time | Answer
 55 | 0m0.194s | There are 249 Lychrel numbers.
 56 | 0m0.166s | 972
 57 | 0m3.164s | 153
+58 | 0m2.958s | 26241
 59 | 0m6.370s | 107359
+60 | 0m4.719s | (13,5197,5701,6733,8389) -> 26033
 63 | 0m0.004s | There are 49 numbers.
 65 | 0m0.001s | 272
 67 | 0m0.018s | 7273
@@ -90,4 +92,4 @@ Problem | Execution time | Answer
 187 | 0m8.224s | 17427258
 191 | 0m0.011s | 1918080160
 206 | 0m4.221s | 1389019170
-Average | 1.022s
+Average | 1.084s
