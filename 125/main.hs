@@ -1,5 +1,4 @@
-import Data.List
-import Data.Set (fromList, toList)
+import qualified Data.Set as S
 
 palindrome :: Int -> Bool
 palindrome n = show n == (reverse $ show n)
@@ -18,4 +17,4 @@ sums = [consecutiveSum a b | b <- [1..10^4]
                            , a <- sumsWith b]
 
 main = do
-    print $ sum $ fromList $ filter palindrome sums
+    print $ sum $ S.toList $ S.fromList $ filter palindrome sums
