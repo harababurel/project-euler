@@ -12,11 +12,11 @@ next = divisorSum
 chain :: Int -> [Int]
 chain n = chain' n (next n) (S.fromList [n])
     where chain' start n s
-            | n >  10^6  = []
-            | n == start = S.toList s
-            | n <  start = []
-            | elem n s   = []
-            | otherwise  = chain' start (next n) (S.insert n s)
+            | n >  10^6    = []
+            | n == start   = S.toList s
+            | n <  start   = []
+            | S.member n s = []
+            | otherwise    = chain' start (next n) (S.insert n s)
 
 sol = map (\n -> (length (chain n), n)) $ filter (([] /=). chain) $ [1..10^6]
 
